@@ -2,4 +2,14 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="cardBackground">#D9D9D9</color>
+    <color name="appBackgroundColor">#141003</color>
+    <color name="purplePrimary">#8C5AE4</color>
+    <color name="purpleSecondary">#6434B9</color>
+    <color name="secondaryBackground">#E3E2EA</color>
+    <color name="greenText">#6FB34E</color>
+    <color name="redText">#DB2F1F</color>
+    <color name="redPrimary">#E57264</color>
+    <color name="redSecondary">#B9524A</color>
+    <color name="grayText">#A2A2A2</color>
 </resources>
