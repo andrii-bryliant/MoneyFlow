@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.andriibryliant.moneyflow"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.andriibryliant.moneyflow"
