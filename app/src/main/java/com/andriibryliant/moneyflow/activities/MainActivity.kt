@@ -40,8 +40,7 @@ class MainActivity : AppCompatActivity() {
         binding.settingsIcon.setOnClickListener { menuViewModel.selectMenuItem(MainMenuItem.SETTINGS) }
 
         menuViewModel.selectedMenuItem.observe(this) { item ->
-            animateMenuItem(item)
-            selectFragment(item)
+            updateMenuUI(item)
         }
 
         if (savedInstanceState == null) {

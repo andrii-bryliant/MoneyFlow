@@ -9,14 +9,11 @@ import com.andriibryliant.moneyflow.objects.TransactionListItem
 class MenuViewModel<T>(initialType: T) : ViewModel() {
     private val _selected = MutableLiveData<T>(initialType)
     val selectedMenuItem: LiveData<T> = _selected
-    var previousSelected: T? = selectedMenuItem.value
 
     fun selectMenuItem(item: T){
         if(item != selectedMenuItem.value){
             _selected.value = item
-
         }
-//        previousSelected = selectedMenuItem.value
     }
 
     class MenuViewModelFactory<I>(private val initialType: I) : ViewModelProvider.Factory{
