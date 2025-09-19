@@ -14,5 +14,4 @@ class MainActivityViewModel : ViewModel() {
         previousSelected = selectedMenuItem.value
         _selected.value = item
     }
-
 }

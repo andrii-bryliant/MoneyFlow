@@ -15,12 +15,13 @@ import com.andriibryliant.moneyflow.fragments.SettingsFragment
 import com.andriibryliant.moneyflow.fragments.StatisticsFragment
 import com.andriibryliant.moneyflow.objects.MainMenuItem
 import com.andriibryliant.moneyflow.utils.Animations
-import com.andriibryliant.moneyflow.viewmodels.MainActivityViewModel
+import com.andriibryliant.moneyflow.viewmodels.MenuViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val mainActivityViewModel: MainActivityViewModel by viewModels()
-    private val currentMenuItem: MainMenuItem? = null
+    private var lastSelected: MainMenuItem? = null
+    private val menuViewModel: MenuViewModel<MainMenuItem> by viewModels { MenuViewModel.MenuViewModelFactory<MainMenuItem>(
+        MainMenuItem.HOME) }
 
     private val homeFragment = HomeFragment()
     private val statisticsFragment = StatisticsFragment()
@@ -33,18 +34,19 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.homeIcon.setOnClickListener { mainActivityViewModel.selectMenuItem(MainMenuItem.HOME) }
-        binding.statisticsIcon.setOnClickListener { mainActivityViewModel.selectMenuItem(MainMenuItem.STATISTICS) }
-        binding.savingsIcon.setOnClickListener { mainActivityViewModel.selectMenuItem(MainMenuItem.SAVINGS) }
-        binding.settingsIcon.setOnClickListener { mainActivityViewModel.selectMenuItem(MainMenuItem.SETTINGS) }
+        binding.homeIcon.setOnClickListener { menuViewModel.selectMenuItem(MainMenuItem.HOME) }
+        binding.statisticsIcon.setOnClickListener { menuViewModel.selectMenuItem(MainMenuItem.STATISTICS) }
+        binding.savingsIcon.setOnClickListener { menuViewModel.selectMenuItem(MainMenuItem.SAVINGS) }
+        binding.settingsIcon.setOnClickListener { menuViewModel.selectMenuItem(MainMenuItem.SETTINGS) }
 
-        mainActivityViewModel.selectedMenuItem.observe(this) { item ->
+        menuViewModel.selectedMenuItem.observe(this) { item ->
             animateMenuItem(item)
             selectFragment(item)
         }
 
         if (savedInstanceState == null) {
-            mainActivityViewModel.selectMenuItem(MainMenuItem.HOME)
+            menuViewModel.selectMenuItem(MainMenuItem.HOME)
+            supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, homeFragment).commit()
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -54,8 +56,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateMenuUI(item: MainMenuItem){
+        if(item != lastSelected){
+            animateMenuItem(item)
+            selectFragment(item)
+            lastSelected = item
+        }
+    }
+
     private fun animateMenuItem(item: MainMenuItem){
-        if(mainActivityViewModel.selectedMenuItem.value != mainActivityViewModel.previousSelected){
             val selectedView = when(item){
                 MainMenuItem.HOME -> binding.homeSelected
                 MainMenuItem.STATISTICS -> binding.statisticsSelected
@@ -72,11 +81,9 @@ class MainActivity : AppCompatActivity() {
 
             selectedView.visibility = View.VISIBLE
             selectedView.startAnimation(showAnimation)
-        }
     }
 
     private fun selectFragment(item: MainMenuItem){
-        if(mainActivityViewModel.selectedMenuItem.value != mainActivityViewModel.previousSelected){
             val selectedFragment = when(item){
                 MainMenuItem.HOME -> homeFragment
                 MainMenuItem.STATISTICS -> statisticsFragment
@@ -85,7 +92,5 @@ class MainActivity : AppCompatActivity() {
             }
 
             supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, selectedFragment).commit()
-        }
     }
-
 }
