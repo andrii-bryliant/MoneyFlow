@@ -14,16 +14,20 @@ class TransactionsViewModel : ViewModel() {
 
     private var currentFilter = TransactionListItem.ALL
 
+    fun fetchTransactions(){
+        //TODO
+    }
+
     fun loadDummyData() {
-        _allList.value = listOf<Transaction>(
+        _allList.value = listOf(
             Transaction("Groceries", "16/09/2025", -150, TransactionType.EXPENSE, "$", "shop"),
-            Transaction("Mobile Payment", "13/09/2025", -10, TransactionType.EXPENSE, "$", "shop"),
-            Transaction("Groceries", "09/09/2025", -150, TransactionType.EXPENSE, "$", "shop"),
-            Transaction("Job Payment", "09/09/2025", 1500, TransactionType.INCOME, "$", "shop"),
-            Transaction("Gym", "09/09/2025", -20, TransactionType.EXPENSE, "$", "shop"),
-            Transaction("Zabka", "09/09/2025", -15, TransactionType.EXPENSE, "$", "shop"),
+            Transaction("Mobile Payment", "13/09/2025", -10, TransactionType.EXPENSE, "$", "travel"),
+            Transaction("Groceries", "09/09/2025", -150, TransactionType.EXPENSE, "$", "food"),
+            Transaction("Job Payment", "09/09/2025", 1500, TransactionType.INCOME, "$", "food"),
+            Transaction("Gym", "09/09/2025", -20, TransactionType.EXPENSE, "$", "travel"),
+            Transaction("Zabka", "09/09/2025", -15, TransactionType.EXPENSE, "$", "food"),
             Transaction("Bicycle Sold", "09/09/2025", 250, TransactionType.INCOME, "$", "shop"),
-            Transaction("Clothes", "09/09/2025", -54, TransactionType.EXPENSE, "$", "shop"),
+            Transaction("Clothes", "09/09/2025", -54, TransactionType.EXPENSE, "$", "food"),
             Transaction("Job Payment", "09/08/2025", 1500, TransactionType.INCOME, "$", "shop")
         )
         applyFilter()

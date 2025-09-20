@@ -11,6 +11,7 @@ import com.andriibryliant.moneyflow.adapters.TransactionsRecyclerViewAdapter
 import com.andriibryliant.moneyflow.databinding.FragmentHomeBinding
 import com.andriibryliant.moneyflow.objects.TransactionListItem
 import com.andriibryliant.moneyflow.utils.Animations
+import com.andriibryliant.moneyflow.viewmodels.CategoriesViewModel
 import com.andriibryliant.moneyflow.viewmodels.MenuViewModel
 import com.andriibryliant.moneyflow.viewmodels.TransactionsViewModel
 
@@ -21,6 +22,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val menuViewModel: MenuViewModel<TransactionListItem> by viewModels{ MenuViewModel.MenuViewModelFactory<TransactionListItem>(
         TransactionListItem.ALL) }
     private val transactionsViewModel: TransactionsViewModel by viewModels()
+    private val categoriesViewModel: CategoriesViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,6 +51,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             transactionsRecyclerViewAdapter.setTransactions(it)
         }
 
+        categoriesViewModel.categoriesList.observe(viewLifecycleOwner){it ->
+            transactionsRecyclerViewAdapter.setCategories(it)
+        }
+
+        categoriesViewModel.loadDummyData()
         transactionsViewModel.loadDummyData()
     }
 
